@@ -264,8 +264,8 @@ const Home = () => {
                               </div>
                             </div>
                             <Link to={`/product/${product._id}`}>
-                              <button className="text-white text-xs hover:bg-green-500 bg-[#DD028B] rounded-md p-1.5">
-                                Details
+                              <button className="text-white text-sm hover:bg-green-500 bg-[#DD028B] rounded-md p-2">
+                              View Details
                               </button>
                             </Link>
                           </div>
