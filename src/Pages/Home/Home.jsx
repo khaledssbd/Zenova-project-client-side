@@ -16,36 +16,52 @@ const Home = () => {
 
   const [category, setCategory] = useState('');
 
+  const [ltePrice, setLtePrice] = useState('');
+  const [gtePrice, setGtePrice] = useState('');
+
   const [searchedProducts, setSearchedProducts] = useState([]);
   const [showSearchResult, setShowSearchResult] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  // fetch data
   useEffect(() => {
     const getData = async () => {
       const { data } = await axios.get(
         `${
           import.meta.env.VITE_API_URL
-        }/all-products-by-pagination?page=${currentPage}&size=${itemsPerPage}&sortPrice=${sortPrice}&sortDate=${sortDate}&category=${category}`
+        }/all-products-by-pagination?page=${currentPage}&size=${itemsPerPage}&sortPrice=${sortPrice}&sortDate=${sortDate}&category=${category}&minPrice=${ltePrice}&maxPrice=${gtePrice}`
       );
 
       setProducts(data);
     };
 
     getData();
-  }, [currentPage, itemsPerPage, sortPrice, sortDate, category]);
+  }, [
+    currentPage,
+    itemsPerPage,
+    sortPrice,
+    sortDate,
+    category,
+    ltePrice,
+    gtePrice,
+  ]);
 
+  // get page count
   useEffect(() => {
     const getCount = async () => {
       const { data } = await axios.get(
-        `${import.meta.env.VITE_API_URL}/products-count?category=${category}`
+        `${
+          import.meta.env.VITE_API_URL
+        }/products-count?category=${category}&minPrice=${ltePrice}&maxPrice=${gtePrice}`
       );
 
       setCount(data.count);
     };
 
     getCount();
-  }, [category]);
+  }, [category, ltePrice, gtePrice]);
 
+  // pages & number of pages
   const numberOfPages = Math.ceil(count / itemsPerPage);
   const pages = [...Array(numberOfPages).keys()]?.map(element => element + 1);
 
@@ -54,15 +70,21 @@ const Home = () => {
     setCurrentPage(value);
   };
 
+  // reset all
   const handleReset = () => {
-    setSortPrice('');
-    setSortDate('');
-    setCategory('');
-    setSearchText('');
-    setCurrentPage(1);
-    setShowSearchResult(false);
+    window.location.reload();
+
+    // setSortPrice('');
+    // setSortDate('');
+    // setCategory('');
+    // setMinPrice('');
+    // setMaxPrice('');
+    // setSearchText('');
+    // setCurrentPage(1);
+    // setShowSearchResult(false);
   };
 
+  // search products by name
   const handleSearch = async text => {
     if (text === '') {
       setSearchText('');
@@ -80,78 +102,88 @@ const Home = () => {
     setIsLoading(false);
   };
 
+  // filter price with min and max value
+  const handlePricefilter = e => {
+    e.preventDefault();
+    const form = e.target;
+    setLtePrice(form.minPrice.value);
+    setGtePrice(form.maxPrice.value);
+  };
   return (
     <div className="container px-6 py-10 mx-auto min-h-[calc(100vh-306px)] flex flex-col justify-between">
       <Helmet>
         <title>Zenova | All Products</title>
       </Helmet>
       <div>
-        <div className="flex flex-col sm:flex-row justify-center items-center gap-5 sm:gap-12">
-          <div className="flex gap-12 justify-between items-center">
-            <div>
-              <select
-                onChange={e => {
-                  setSortPrice(e.target.value);
-                  setSortDate('');
-                  setCurrentPage(1);
-                }}
-                value={sortPrice}
-                className="border p-4 rounded-md"
-                placeholder="Sort by"
-              >
-                <option hidden value="">
-                  Sort By Price
-                </option>
-                <option value="asc">Low to high </option>
-                <option value="dsc">High to Low</option>
-              </select>
-            </div>
+        <div className="flex flex-col sm:flex-row justify-center items-center gap-3">
+          <div className="md:flex gap-3  justify-center items-center">
+            <div className="flex gap-3 justify-center items-center my-3">
+              <div>
+                <select
+                  onChange={e => {
+                    setSortPrice(e.target.value);
+                    setSortDate('');
+                    setCurrentPage(1);
+                  }}
+                  value={sortPrice}
+                  className="border p-4 rounded-md"
+                >
+                  <option hidden value="">
+                    Sort By Price
+                  </option>
+                  <option value="asc">Low to high </option>
+                  <option value="dsc">High to Low</option>
+                </select>
+              </div>
 
-            <div>
-              <select
-                onChange={e => {
-                  setSortDate(e.target.value);
-                  setSortPrice('');
-                  setCurrentPage(1);
-                }}
-                value={sortDate}
-                className="border p-4 rounded-md"
-                placeholder="Sort by"
-              >
-                <option hidden value="">
-                  Sort By Date
-                </option>
-                <option value="asc">New to old </option>
-                <option value="dsc">Old to new</option>
-              </select>
+              <div>
+                <select
+                  onChange={e => {
+                    setSortDate(e.target.value);
+                    setSortPrice('');
+                    setCurrentPage(1);
+                  }}
+                  value={sortDate}
+                  className="border p-4 rounded-md"
+                >
+                  <option hidden value="">
+                    Sort By Date
+                  </option>
+                  <option value="asc">New to old </option>
+                  <option value="dsc">Old to new</option>
+                </select>
+              </div>
             </div>
+            <div className="flex gap-3 justify-center items-center my-3">
+              <div>
+                <select
+                  onChange={e => {
+                    setCategory(e.target.value);
+                    setSortDate('');
+                    setSortPrice('');
+                    setCurrentPage(1);
+                  }}
+                  value={category}
+                  className="border p-4 rounded-md"
+                >
+                  <option hidden value="">
+                    Category
+                  </option>
+                  <option value="Electronics">Electronics</option>
+                  <option value="Wearables">Wearables</option>
+                  <option value="Entertainment">Entertainment</option>
+                  <option value="Accessories">Accessories</option>
+                  <option value="Computers">Computers</option>
+                </select>
+              </div>
 
-            <div>
-              <select
-                onChange={e => {
-                  setCategory(e.target.value);
-                  setSortDate('');
-                  setSortPrice('');
-                  setCurrentPage(1);
-                }}
-                value={category}
-                className="border p-4 rounded-md"
-                placeholder="Sort by"
+              <button
+                onClick={handleReset}
+                className="btn bg-[#DD028B] text-white"
               >
-                <option hidden value="">
-                  Category
-                </option>
-                <option value="Electronics">Electronics</option>
-                <option value="Wearables">Wearables</option>
-                <option value="Entertainment">Entertainment</option>
-                <option value="Accessories">Accessories</option>
-                <option value="Computers">Computers</option>
-              </select>
+                Reset
+              </button>
             </div>
-
-            <button onClick={handleReset} className="btn">
-              Reset
-            </button>
           </div>
           <div className="flex p-1 overflow-hidden border rounded-lg focus-within:ring focus-within:ring-opacity-40 focus-within:border-blue-400 focus-within:ring-blue-300">
             <input
@@ -164,6 +196,33 @@ const Home = () => {
             />
           </div>
         </div>
+        <form onSubmit={handlePricefilter}>
+          <label className="block mt-10 mb-4">Filter Price</label>
+          <div
+            className="flex flex-col sm:flex-row justify-center items-center gap-3"
+            // className="flex gap-3 justify-center items-center my-3"
+          >
+            <input
+              className="p-2 border rounded-lg focus:outline-green-500"
+              type="number"
+              required
+              name="minPrice"
+              placeholder="Minimum"
+            />
+            <input
+              className="p-2 border rounded-lg focus:outline-green-500"
+              type="number"
+              required
+              name="maxPrice"
+              placeholder="Maximum"
+            />
+            <input
+              type="submit"
+              value="Filter"
+              className="btn bg-[#DD028B] text-white"
+            />
+          </div>
+        </form>
         <div>
           {showSearchResult && (
             <div>
