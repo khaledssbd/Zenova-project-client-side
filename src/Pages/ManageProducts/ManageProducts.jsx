@@ -75,7 +75,6 @@ const ManageProducts = () => {
     const { data } = await axios.get(
       `${import.meta.env.VITE_API_URL}/product-details/${id}`
     );
-    console.log(data);
     setProductToUpdate(data);
     setShowUpdateModal(true);
   };
