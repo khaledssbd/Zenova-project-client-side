@@ -25,26 +25,26 @@ const Home = () => {
       const { data } = await axios.get(
         `${
           import.meta.env.VITE_API_URL
-        }/all-products-by-pagination?page=${currentPage}&size=${itemsPerPage}&sortPrice=${sortPrice}&sortDate=${sortDate}`
+        }/all-products-by-pagination?page=${currentPage}&size=${itemsPerPage}&sortPrice=${sortPrice}&sortDate=${sortDate}&category=${category}`
       );
 
       setProducts(data);
     };
 
     getData();
-  }, [currentPage, itemsPerPage, sortPrice, sortDate]);
+  }, [currentPage, itemsPerPage, sortPrice, sortDate, category]);
 
   useEffect(() => {
     const getCount = async () => {
       const { data } = await axios.get(
-        `${import.meta.env.VITE_API_URL}/products-count`
+        `${import.meta.env.VITE_API_URL}/products-count?category=${category}`
       );
 
       setCount(data.count);
     };
 
     getCount();
-  }, []);
+  }, [category]);
 
   const numberOfPages = Math.ceil(count / itemsPerPage);
   const pages = [...Array(numberOfPages).keys()]?.map(element => element + 1);
@@ -57,6 +57,7 @@ const Home = () => {
   const handleReset = () => {
     setSortPrice('');
     setSortDate('');
+    setCategory('');
     setSearchText('');
     setCurrentPage(1);
     setShowSearchResult(false);
@@ -138,7 +139,7 @@ const Home = () => {
                 placeholder="Sort by"
               >
                 <option hidden value="">
-                  Select a category
+                  Category
                 </option>
                 <option value="Electronics">Electronics</option>
                 <option value="Wearables">Wearables</option>
