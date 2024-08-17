@@ -12,10 +12,6 @@
 
 ---
 
-# Project Overview:
-
-- Add your product to database and manage them
-
 # Features
 
 - Loading data in a amazing way with no bug using TanStack Query
@@ -40,6 +36,8 @@ Before you begin, ensure you have the following installed on your local machine:
 - [Git](https://git-scm.com/)
 
 ### Installation
+
+open a command promgt or vercel terminal and run the following commands-
 
 1. ```bash
    git clone https://github.com/khaledssbd/Zenova-project-client-side
