@@ -13,6 +13,9 @@ const Home = () => {
   const [sortDate, setSortDate] = useState('');
   const [searchText, setSearchText] = useState('');
   const [products, setProducts] = useState([]);
+
+  const [category, setCategory] = useState('');
+
   const [searchedProducts, setSearchedProducts] = useState([]);
   const [showSearchResult, setShowSearchResult] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -88,6 +91,7 @@ const Home = () => {
               <select
                 onChange={e => {
                   setSortPrice(e.target.value);
+                  setSortDate('');
                   setCurrentPage(1);
                 }}
                 value={sortPrice}
@@ -106,6 +110,7 @@ const Home = () => {
               <select
                 onChange={e => {
                   setSortDate(e.target.value);
+                  setSortPrice('');
                   setCurrentPage(1);
                 }}
                 value={sortDate}
@@ -117,6 +122,29 @@ const Home = () => {
                 </option>
                 <option value="asc">New to old </option>
                 <option value="dsc">Old to new</option>
+              </select>
+            </div>
+
+            <div>
+              <select
+                onChange={e => {
+                  setCategory(e.target.value);
+                  setSortDate('');
+                  setSortPrice('');
+                  setCurrentPage(1);
+                }}
+                value={category}
+                className="border p-4 rounded-md"
+                placeholder="Sort by"
+              >
+                <option hidden value="">
+                  Select a category
+                </option>
+                <option value="Electronics">Electronics</option>
+                <option value="Wearables">Wearables</option>
+                <option value="Entertainment">Entertainment</option>
+                <option value="Accessories">Accessories</option>
+                <option value="Computers">Computers</option>
               </select>
             </div>
 

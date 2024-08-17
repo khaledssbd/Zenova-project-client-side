@@ -52,7 +52,6 @@ const AddProduct = () => {
         date_Time: new Date().toLocaleDateString(),
       };
 
-     return console.log(productDoc);
       const { data: productConf } = await axiosSecure.post(
         `/add-product?email=${user?.email}`,
         productDoc
