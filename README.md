@@ -2,10 +2,8 @@
 
 ## Live site:
 
-- [Zenova on firebase](https://zenova-khaled.web.app)
-- [Zenova on vercel](https://zenova-by-khaled.vercel.app)
-- [Zenova on surge](https://zenova-by-khaled.surge.sh)
-- [Zenova on netlify](https://zenova-by-khaled.netlify.app)
+- [Zenova on firebase](https://zenovaaz.web.app)
+- [Zenova on vercel](https://zenovaaz.vercel.app)
 
 ## GitHub Repository:
 
