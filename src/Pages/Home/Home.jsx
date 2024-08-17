@@ -16,8 +16,8 @@ const Home = () => {
 
   const [category, setCategory] = useState('');
 
-  const [ltePrice, setLtePrice] = useState('');
-  const [gtePrice, setGtePrice] = useState('');
+  const [minPrice, setMinPrice] = useState('');
+  const [maxPrice, setMaxPrice] = useState('');
 
   const [searchedProducts, setSearchedProducts] = useState([]);
   const [showSearchResult, setShowSearchResult] = useState(false);
@@ -29,7 +29,7 @@ const Home = () => {
       const { data } = await axios.get(
         `${
           import.meta.env.VITE_API_URL
-        }/all-products-by-pagination?page=${currentPage}&size=${itemsPerPage}&sortPrice=${sortPrice}&sortDate=${sortDate}&category=${category}&minPrice=${ltePrice}&maxPrice=${gtePrice}`
+        }/all-products-by-pagination?page=${currentPage}&size=${itemsPerPage}&sortPrice=${sortPrice}&sortDate=${sortDate}&category=${category}&minPrice=${minPrice}&maxPrice=${maxPrice}`
       );
 
       setProducts(data);
@@ -42,8 +42,8 @@ const Home = () => {
     sortPrice,
     sortDate,
     category,
-    ltePrice,
-    gtePrice,
+    minPrice,
+    maxPrice,
   ]);
 
   // get page count
@@ -52,14 +52,14 @@ const Home = () => {
       const { data } = await axios.get(
         `${
           import.meta.env.VITE_API_URL
-        }/products-count?category=${category}&minPrice=${ltePrice}&maxPrice=${gtePrice}`
+        }/products-count?category=${category}&minPrice=${minPrice}&maxPrice=${maxPrice}`
       );
 
       setCount(data.count);
     };
 
     getCount();
-  }, [category, ltePrice, gtePrice]);
+  }, [category, minPrice, maxPrice]);
 
   // pages & number of pages
   const numberOfPages = Math.ceil(count / itemsPerPage);
@@ -106,8 +106,8 @@ const Home = () => {
   const handlePricefilter = e => {
     e.preventDefault();
     const form = e.target;
-    setLtePrice(form.minPrice.value);
-    setGtePrice(form.maxPrice.value);
+    setMinPrice(form.minPrice.value);
+    setMaxPrice(form.maxPrice.value);
   };
   return (
     <div className="container px-6 py-10 mx-auto min-h-[calc(100vh-306px)] flex flex-col justify-between">
@@ -200,7 +200,6 @@ const Home = () => {
           <label className="block mt-10 mb-4">Filter Price</label>
           <div
             className="flex flex-col sm:flex-row justify-center items-center gap-3"
-            // className="flex gap-3 justify-center items-center my-3"
           >
             <input
               className="p-2 border rounded-lg focus:outline-green-500"
