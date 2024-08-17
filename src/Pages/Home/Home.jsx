@@ -198,9 +198,7 @@ const Home = () => {
         </div>
         <form onSubmit={handlePricefilter}>
           <label className="block mt-10 mb-4">Filter Price</label>
-          <div
-            className="flex flex-col sm:flex-row justify-center items-center gap-3"
-          >
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-3">
             <input
               className="p-2 border rounded-lg focus:outline-green-500"
               type="number"
@@ -252,7 +250,7 @@ const Home = () => {
                               />
                             </div>
                             <h1 className="font-semibold text-gray-800 text-center flex-grow">
-                              {product.name}
+                              {product.name.substring(0, 30)}...
                             </h1>
                             <div className="flex items-center justify-around">
                               <div className="text-left">
