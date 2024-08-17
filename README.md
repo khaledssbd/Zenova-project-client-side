@@ -1,4 +1,4 @@
-# GlamSpot
+# Zenova
 
 ## Live site:
 
