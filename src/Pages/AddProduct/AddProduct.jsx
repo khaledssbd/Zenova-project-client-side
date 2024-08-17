@@ -58,7 +58,7 @@ const AddProduct = () => {
       );
       if (productConf.insertedId) {
         toast.success('Product added successfully');
-        // navigate('/manage-products');
+        navigate('/manage-products');
       }
     } catch (err) {
       toast.error(err.message);
